@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rive Animation Control</title>
+    <script type="module">
+        import { Rive, StateMachineInput } from '@rive-app/web';
+
+        document.addEventListener("DOMContentLoaded", function() {
+            const rive = new Rive({
+                src: "https://rive.app/s/g5J4fMarFEyHoswljwNiBw/rivecdn",
+                stateMachines: "State Machine 1",
+                canvas: document.getElementById("canvas"),
+                autoplay: true,
+            });
+
+            // Example interaction trigger
+            window.addEventListener("message", (event) => {
+                const message = event.data;
+                if (message === "door_open_trig") {
+                    const inputs = rive.stateMachineInputs("State Machine 1");
+                    const doorOpenInput = inputs.find((input) => input.name === "door_open_trig");
+                    if (doorOpenInput) {
+                        doorOpenInput.fire();
+                    }
+                }
+            }, false);
+        });
+    </script>
+</head>
+<body>
+    <canvas id="canvas" width="500" height="1080" style="border: none;"></canvas>
+</body>
+</html>
